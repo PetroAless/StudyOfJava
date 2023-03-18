@@ -1,0 +1,86 @@
+						JAVA DOCS
+
+/*Print o Println System.out.println + \n e \t ecc ecc
+		 * Oltretutto shortcut write sysout e ctrl+space
+		*/
+		//System.out.println("hello world");
+		
+		
+		
+		
+		byte, short sono alternative all'int per risparmiare spazio se necessario
+		byte(8 bit), short(16bit), int(32bit),long(64bit)
+		
+		long si inizializza aggiungendo L alla fine
+			eg: long foo = 100L;
+		
+		float, double sono 2 tipi floating point con value range illimitato
+		non sono consigliati per valori precisi come per il denaro
+		float(32bit) double(64bit)
+		
+		char ecc ecc
+		
+		operators:
+		++ -- a seconda della posizione rispetto alla variabile [(++a)!=(a++)]
+		~ inverte tutti i bit ed esegue il complemento a 2,
+		x = 6, ~x = -7
+		0000 0101 = 1111 1011
+		
+		
+		
+		int x = 12; //initialization (tipo + nome variabile più assignment "=12" 
+		float y = 12.3f;
+		double y1 = 12.344;
+		*/
+		/*
+		//swapping vars
+		int a = 11;int b = 12;
+		System.out.println(a+" "+b);
+		swap(a,b); //non passa by reference ma by value, quindi si può solamente fare
+		
+		a=a+b;
+		b=a-b;
+		a=a-b;
+		System.out.println(a+" "+b);//con altri sistemi esempio x=x+y y=x-y x=x-y
+		*/
+		
+		/*scanner
+		Scanner scan = new Scanner(System.in);
+		*/
+		//String name = scan.nextLine(); //input da console, scan.next prende fino allo spazio
+		//System.out.println(name);//nextline prende fino all'invio
+		/*
+		 * lo scanner dopo metodi come .nextInt si "sporca" mantenendo il '\n' 
+		 * facendo così interrompere immediatamente un eventuale successivo nextline
+		 * soluzione: aggiungere un altro .nextline senza utilizzo per "pulire"
+		 */
+		
+		
+		/*Espressioni 
+		// il simbolo percentuale serve per risultare il resto di una divisione tra 2 vars
+		double a1 = 10;
+		a1 = (int) a1/2; //casting, down casting così viene tagliato il risultato
+		System.out.println(a1);//ma rimane la virgola
+		*/
+		
+		/* JOptionPane è una classe per mostrare dialog boxes, simile a scanner per i 
+		 * suoi utilizzi ma con caratteristiche grafiche e di gui
+		String name = JOptionPane.showInputDialog("questa è una input box, inserisci nome");
+		JOptionPane.showMessageDialog(null, "questa è una message box e questo è il tuo nome "+name);
+		*/
+		
+		/*wrapper classes Integer, Float, Double ecc ecc che contengono funzioni
+		 * per aiutare la programmazione
+		 * esempio Integer.parseInt(s) serve per trasformare una string in un int
+		 * in base alla presenzsa di numeri all'interno della string
+		 * Nell'esempio successivo si usa il parse int per ottenre il numero dalla stringa
+		 * 
+		String g = "1234";
+		System.out.println(g);
+		int gint = Integer.parseInt(g);
+		System.out.println(gint);
+		*/
+		
+		
+		
+		
