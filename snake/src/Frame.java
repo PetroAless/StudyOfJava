@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 
 public class Frame extends JFrame{//setting up a frame class with my functions to work with jframe and else
@@ -14,34 +15,37 @@ public class Frame extends JFrame{//setting up a frame class with my functions t
         frame.add(c);
     }
     void render(){  //function to just render and other things to do at the end
-        frame.setLayout(null);
+        frame.setLayout(new FlowLayout());
         frame.setVisible(true);
     }
     public static void main(String[] args) {
         Frame f = new Frame(1200,900);
 
 
-        JLabel label = new JLabel("testo di prova");
-        label.setBounds(500,200,200,80);
-        JLabel img = new JLabel(new ImageIcon("heart.png"));
+        JLabel lbl = new JLabel("testo di default");
+        lbl.setBounds(0,0,200,80);
+
+        ImageIcon img = new ImageIcon("resources/heart.png");
+        Image newImg = img.getImage().getScaledInstance(120,120, Image.SCALE_SMOOTH);
+        img = new ImageIcon(newImg);
+
+        JLabel imgLbl = new JLabel(img);
+
+        imgLbl.setBounds(0,0,100,100);
 
 
-
-
-
-        JButton btn = new JButton("button");
-        btn.setBounds(550,300,100,40);
+        JButton btn = new JButton("cambia testo");
+        btn.setBounds(0,0,100,40);
         btn.addActionListener(e-> {  //add event action listener, creating nested functions? idk lmao
-            label.setText("Giorgia ti amo tanto tanto");
-            label.setBackground(Color.PINK);
-            label.setOpaque(true);
-
+            lbl.setText("il tasto funziona");
+            lbl.setBackground(Color.PINK);
+            lbl.setOpaque(true);
         });
 
 
-        f.add(label);//add elements
+        f.add(lbl);//add elements
         f.add(btn);
-        f.frame.add(img);
+        f.add(imgLbl);
         f.pack();
         f.render();//show the frame
     }
