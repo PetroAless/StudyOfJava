@@ -1,0 +1,7 @@
+Creating a snake app with swing,
+adding notes for myself and others
+
+I create a class named Frame that extends
+
+Button can be initialized with an image instead of txt.
+

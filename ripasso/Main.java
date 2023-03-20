@@ -5,14 +5,18 @@ import java.util.HashMap;
 
 
 public class Main {
-	public int x;
-	public int y;
-	public int z;
 
-	public static int printFibo(int n){
+
+	public int fibo(int n){
+		if(n==0) {
+			return 0;
+		} else if (n==1) {
+			return 1;
+		} else {
+			return fibo(n - 1) + fibo(n - 2);
+		}
 
 	}
-
 
 	public static void swap(int x, int y) {
 		int temp = x;
@@ -37,13 +41,13 @@ public class Main {
 		String S;
 		String[] strArr=str.split(" ",0);
 		fill(resS,strArr);
-		
+
 		for(int i = 0;i < strArr.length;i++) {
 			if(strArr[i].compareTo("")==0) {
 				continue;
 			}
 			S=strArr[i];
-			
+
 			for(int j = i+1;j < strArr.length;j++) {
 				if((S.compareTo(strArr[j]))==0) {
 					resS.replace(S,resS.get(S)+1);
@@ -62,6 +66,17 @@ public class Main {
 		
 		
 		
+	}
+	public static void removeIf(String[] arr,String a,int i) {
+		for(++i; i < arr.length ; i++) {
+			if(arr[i].compareTo(a)==0) {
+				arr[i]="";
+			}
+		}
+	}
+	public static void main(String[] args) {
+		Main m = new Main();
+
 	}
 
 }
