@@ -1,4 +1,4 @@
-package main_package;
+package main_package.ripasso;
 
 import java.util.HashMap;
 
@@ -67,16 +67,4 @@ public class Main {
 		
 		
 	}
-	public static void removeIf(String[] arr,String a,int i) {
-		for(++i; i < arr.length ; i++) {
-			if(arr[i].compareTo(a)==0) {
-				arr[i]="";
-			}
-		}
-	}
-	public static void main(String[] args) {
-		Main m = new Main();
-
-	}
-
 }
