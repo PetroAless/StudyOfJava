@@ -1,10 +1,19 @@
 package main_package;
 
 import java.util.HashMap;
-import java.util.Iterator;
+
+
 
 public class Main {
-	
+	public int x;
+	public int y;
+	public int z;
+
+	public static int printFibo(int n){
+
+	}
+
+
 	public static void swap(int x, int y) {
 		int temp = x;
 		x = y;
@@ -18,16 +27,16 @@ public class Main {
 			}
 		}
 	}
-	public static void main(String[] args) {
-		String strToChk = "parola ciao schermo luce ciao radice "
-				+ "schermo parola ciao ciao ciao luce radice";
-		HashMap <String,Integer>resS = new HashMap<String,Integer>();
-		String S = "";
-		boolean check = false;
-		String[] strArr=strToChk.split(" ",0);
-		for(int i = 0;i < strArr.length;i++) {
-			resS.put(strArr[i],1);
+	public static void fill(HashMap <String,Integer>toFill, String[]filler) {
+		for(int i = 0;i < filler.length;i++) {
+			toFill.put(filler[i],1);
 		}
+	}
+	public static void checkIfThereIsRepetition(String str) {
+		HashMap <String,Integer>resS = new HashMap<String,Integer>();
+		String S;
+		String[] strArr=str.split(" ",0);
+		fill(resS,strArr);
 		
 		for(int i = 0;i < strArr.length;i++) {
 			if(strArr[i].compareTo("")==0) {
@@ -43,6 +52,14 @@ public class Main {
 			removeIf(strArr,S,i);
 		}
 		System.out.println(resS);
+	}
+
+	public static void main(String[] args) {
+		/*String strToChk = "parola ciao schermo luce ciao radice "
+				+ "schermo parola ciao ciao ciao luce radice";
+		checkIfThereIsRepetition(strToChk);*/
+		
+		
 		
 		
 	}
