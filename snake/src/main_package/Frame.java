@@ -2,17 +2,19 @@ package main_package;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 
 
-public class Frame extends JFrame{//setting up a frame class with my functions to work with jframe and else
+public class Frame extends JFrame implements ActionListener {//setting up a frame class with my functions to work with jframe and else
     JFrame f;//basic frame
     JPanel panel;
     JLabel apple;
     Random r = new Random();
     Frame(int width,int height,Color c){ //easy constructor with size
-        f = new JFrame("Frame Demo");
+        f = new JFrame("Snake");
         f.setSize(width,height);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //setting closing operation
 
@@ -30,11 +32,7 @@ public class Frame extends JFrame{//setting up a frame class with my functions t
 
         setApple();
         panel.add(apple);
-        add(panel);
-    }
-
-    void add(JComponent c){  //function to simply add a component easily, without writing f.frame.add(c)
-        f.add(c);
+        f.add(panel);
     }
 
     public void setApple(){
@@ -44,8 +42,8 @@ public class Frame extends JFrame{//setting up a frame class with my functions t
 
 
     public void randomizePositionOfApple(){
-        int x = r.nextInt(f.getWidth());
-        int y = r.nextInt(f.getHeight());
+        int x = r.nextInt(f.getWidth())-10;
+        int y = r.nextInt(f.getHeight())-10;
         this.apple.setLocation(x,y);
         System.out.println("x="+x+";y="+y);
     }
@@ -55,18 +53,35 @@ public class Frame extends JFrame{//setting up a frame class with my functions t
     }
 
     void render() {  //function to just render and other things to do at the end
+
         f.setVisible(true);
     }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        randomizePositionOfApple();
 
-    public static void main(String[] args) {
-        Frame fr = new Frame(800,600,null);
-        fr.randomizePositionOfApple();
-
-
-
-
-        Listener l = new Listener();
-        fr.pack();
-        fr.render();//show the frame
+        repaint();
     }
+    public static void main(String[] args) {
+
+
+
+
+        java.awt.EventQueue.invokeLater(() -> {
+            Frame fr = new Frame(800,600,null);
+            fr.randomizePositionOfApple();
+            fr.render();//show the frame
+            Listener l = new Listener();
+
+
+            Timer t = new Timer(100,fr);
+            t.start();
+        });
+
+
+
+
+    }
+
+
 }
