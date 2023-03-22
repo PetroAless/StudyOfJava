@@ -12,6 +12,7 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
     JFrame f;//basic frame
     JPanel panel;
     JLabel apple;
+    Snake s;
     Random r = new Random();
     Frame(int width,int height,Color c){ //easy constructor with size
         f = new JFrame("Snake");
@@ -19,48 +20,78 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //setting closing operation
 
         setPanel(c);
-        addAllComponents();
+
 
     }
-    void setPanel (Color colorOrNull){
+    void prepareSnake(){//for cleaner code, preparing snake's attributes
+        s = new Snake();
+        s.setBounds();
+        panel.add(s.head);
+        panel.add(s.body[0]);
+    }
+
+    void setPanel (Color colorOrNull){//preparing panel and all parts
         panel = new JPanel(null);
 
         colorOrNull = colorOrNull!=null ? colorOrNull : Color.black;
         panel.setBackground(colorOrNull);
-
         panel.setBounds(0,0,f.getWidth(),f.getHeight());
 
-        setApple();
-        panel.add(apple);
+        prepareComponentsInPanel();
+
         f.add(panel);
     }
 
-    public void setApple(){
-        apple = new JLabel(new ImageIcon("src/resources/apple.png"));
+    public void prepareComponentsInPanel(){//fro cleaner code, preparing all components like snake and apple
+        prepareSnake();
+        setApple();
+    }
+
+    public void setApple(){//preparing apple and all attributes
+        apple = new JLabel(new ImageIcon("../src/resources/apple.png"));
         apple.setBounds(0,0,10,10);
-    }
-
-
-    public void randomizePositionOfApple(){
-        int x = r.nextInt(f.getWidth())-10;
-        int y = r.nextInt(f.getHeight())-10;
-        this.apple.setLocation(x,y);
-        System.out.println("x="+x+";y="+y);
-    }
-
-    public void addAllComponents(){
         panel.add(apple);
     }
+
+
+    public void randomizePositionOfApple(){//randomizing the position, function for later
+        int x = r.nextInt(f.getWidth()-10);
+        int y = r.nextInt(f.getHeight()-10);
+        this.apple.setLocation(x,y);
+
+    }
+
+
 
     void render() {  //function to just render and other things to do at the end
 
         f.setVisible(true);
     }
+
+    public boolean checkCollision(){ //                                     @todo!
+        if(
+                ( this.s.hx +5 <= this.apple.getX() && this.s.hx +5 >= this.apple.getX() -5 )
+                        &&
+                        ( this.s.hy +5 >= this.apple.getY() && this.s.hy -5 <= this.apple.getY() )
+
+
+
+
+        ){
+            return true;
+        }else{
+            return false;
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
-        randomizePositionOfApple();
 
+        this.s.setXY(this.s.hx,this.s.hy);
+        if(checkCollision()){
+            this.randomizePositionOfApple();
+        }
         repaint();
+        this.s.hx+=5;
     }
     public static void main(String[] args) {
 
@@ -68,10 +99,10 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
 
         java.awt.EventQueue.invokeLater(() -> {
-            Frame fr = new Frame(800,600,null);
-            fr.randomizePositionOfApple();
+            Frame fr = new Frame(300,300,null);
+            fr.apple.setLocation(200,4);
             fr.render();//show the frame
-            Listener l = new Listener();
+
 
 
             Timer t = new Timer(100,fr);
