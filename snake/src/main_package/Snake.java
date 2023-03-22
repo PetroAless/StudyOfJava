@@ -3,10 +3,11 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 public class Snake {
     JLabel head, body[] = new JLabel[900];
+    boolean left = false,right = false,top = false,bottom = true;
     int hx,hy,bx,by;//head x, head y, body x, body y
     Snake(){
-        head = new JLabel(new ImageIcon("../src/resources/head.png"));
-        body[0] = new JLabel(new ImageIcon("../src/resources/dot.png"));
+        head = new JLabel(new ImageIcon("src/resources/head.png"));
+        body[0] = new JLabel(new ImageIcon("src/resources/dot.png"));
     }
     public void setBounds(){
         head.setBounds(0,0,10,10);
