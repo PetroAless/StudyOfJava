@@ -72,7 +72,7 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         if(
         ( this.s.hx +5 <= this.apple.getX() && this.s.hx +5 >= this.apple.getX() -5 )
         && 
-        ( this.s.hy +5 >= this.apple.getY() -5 && this.s.hy -5 <= this.apple.getY() +5 ) 
+        ( this.s.hy +5 >= this.apple.getY() && this.s.hy -5 <= this.apple.getY() ) 
         
         
         
@@ -91,7 +91,7 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
             this.randomizePositionOfApple();
         }
         repaint();
-        this.s.hx+=1;
+        this.s.hx+=5;
     }
     public static void main(String[] args) {
 
@@ -100,12 +100,12 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
         java.awt.EventQueue.invokeLater(() -> {
             Frame fr = new Frame(300,300,null);
-            fr.apple.setLocation(200,5);
+            fr.apple.setLocation(200,4);
             fr.render();//show the frame
             
 
 
-            Timer t = new Timer(150,fr);
+            Timer t = new Timer(100,fr);
             t.start();
         });
 
