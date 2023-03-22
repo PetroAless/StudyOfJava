@@ -70,9 +70,9 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
     public boolean checkCollision(){ //                                     @todo!
         if(
-        ( this.s.hx+5 <= this.apple.getX() && this.s.hx+5 >= this.apple.getX() - 5 )
+        ( this.s.hx +5 <= this.apple.getX() && this.s.hx +5 >= this.apple.getX() -5 )
         && 
-        (  )
+        ( this.s.hy +5 >= this.apple.getY() -5 && this.s.hy -5 <= this.apple.getY() +5 ) 
         
         
         
