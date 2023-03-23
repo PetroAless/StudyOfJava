@@ -2,19 +2,24 @@ package main_package;
 import javax.swing.JLabel;
 
 import java.awt.Point;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 public class Snake {
     public enum direction {up,right,down,left}
     JLabel head, body[] = new JLabel[900];
     direction d = direction.down;
-    String headSrc = "../resources/head.png";
-    String bodySrc = "../resources/dot.png";
+    boolean justTurned = false;
+    String headSrc = "src/resources/head.png";
+    String bodySrc = "src/resources/body.png";
+    int measure,frameSizes;
 
     //head x, head y
     int bodyN = 3;//number of bodies
 
-    Snake(){
+    Snake(int width_height,int frameSize){
+        this.measure = width_height;
+        this.frameSizes = frameSize;
         head = new JLabel(new ImageIcon(this.headSrc));
         for (int i = 0; i < bodyN; i++) {
             body[i] = new JLabel(new ImageIcon(this.bodySrc));
@@ -22,24 +27,25 @@ public class Snake {
         setBounds();
     }
     public void setBounds(){
-        head.setBounds(100,100,10,10);
+        Random r = new Random();
+        int x = r.nextInt(frameSizes);
+        x = Math.round(x/measure)*measure;
+        int y = r.nextInt(frameSizes);
+        y = Math.round(y/measure)*measure;
+        head.setBounds(x,y,measure,measure);
         for (int i = 0; i < this.bodyN; i++) {
-            body[i].setBounds(head.getX(),head.getY(),10,10);
+            body[i].setBounds(head.getX(),head.getY(),measure,measure);
         }
     }
 
-    public void move(boolean justChangedD) {
+    public void move() {
         Point beforeMove,tmp = this.head.getLocation();
-        int head_bodyDistance = 5;
-        if(justChangedD){
-            head_bodyDistance = 0;
-        }else{
-            head_bodyDistance = 5;
-        }
+        int head_bodyDistance = 0;
+
 
         switch (this.d){
             case up -> {
-                this.head.setLocation(this.head.getX(),this.head.getY()-5);
+                this.head.setLocation(this.head.getX(),this.head.getY()-measure);
                 for(int i = 0; i < this.bodyN; i++){
                     beforeMove = body[i].getLocation();
                     body[i].setLocation(tmp.x,tmp.y+head_bodyDistance);
@@ -48,7 +54,7 @@ public class Snake {
                 }
             }
             case right -> {
-                this.head.setLocation(this.head.getX()+5,this.head.getY());
+                this.head.setLocation(this.head.getX()+measure,this.head.getY());
                 for(int i = 0; i < this.bodyN ; i++){
                     beforeMove = body[i].getLocation();
                     body[i].setLocation(tmp.x-head_bodyDistance,tmp.y);
@@ -57,7 +63,7 @@ public class Snake {
                 }
             }
             case down -> {
-                this.head.setLocation(this.head.getX(),this.head.getY()+5);
+                this.head.setLocation(this.head.getX(),this.head.getY()+measure);
                 for(int i = 0; i < this.bodyN ; i++){
                     beforeMove = body[i].getLocation();
                     body[i].setLocation(tmp.x,tmp.y-head_bodyDistance);
@@ -67,7 +73,7 @@ public class Snake {
             }
             case left -> {
 
-                this.head.setLocation(this.head.getX()-5,this.head.getY());
+                this.head.setLocation(this.head.getX()-measure,this.head.getY());
                 for(int i = 0; i < this.bodyN ; i++){
                     beforeMove = body[i].getLocation();
                     body[i].setLocation(tmp.x+head_bodyDistance,tmp.y);
@@ -81,23 +87,23 @@ public class Snake {
         }
 
 
-
+        this.justTurned = false;
 
     }
     public void initializeNewNode(){
         this.body[bodyN-1] = new JLabel(new ImageIcon(this.bodySrc));
         switch (this.d){
             case up -> {
-                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX(),this.body[bodyN-2].getY()+10,10,10);
+                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX(),this.body[bodyN-2].getY()+measure,measure,measure);
             }
             case right -> {
-                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX()-10,this.body[bodyN-2].getY(),10,10);
+                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX()-measure,this.body[bodyN-2].getY(),measure,measure);
             }
             case down -> {
-                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX(),this.body[bodyN-2].getY()-10,10,10);
+                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX(),this.body[bodyN-2].getY()-measure,measure,measure);
             }
             case left -> {
-                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX()+10,this.body[bodyN-2].getY(),10,10);
+                this.body[bodyN-1].setBounds(this.body[bodyN-2].getX()+measure,this.body[bodyN-2].getY(),measure,measure);
             }
         }
     }

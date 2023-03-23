@@ -14,33 +14,43 @@ import java.util.Random;
 public class Frame extends JFrame implements ActionListener {//setting up a frame class with my functions to work with jframe and else
     JFrame f;//basic frame
     JPanel panel;
-    JLabel apple;String appleSrc = "../resources/apple.png";
+    JLabel apple;String appleSrc = "src/resources/apple.png";
     Snake s;
     Random r = new Random();
-    Frame(int width,int height,Color c){ //easy constructor with size
+    int measureUnit = 30;
+    Frame(int width,int height){ //easy constructor with size
         f = new JFrame("Snake");
         f.setSize(width,height);
-        f.setLocation(600,250);
+        f.setLocation(600,200);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //setting closing operation
 
-        setPanel(c);
+        setPanel();
 
 
     }
 
     void prepareSnake(){//for cleaner code, preparing snake's attributes
-        s = new Snake();
+        s = new Snake(measureUnit,this.f.getWidth());
         panel.add(s.head);
         for (int i = 0; i < s.bodyN; i++) {
             panel.add(s.body[i]);
         }
     }
 
-    void setPanel (Color colorOrNull){//preparing panel and all parts
-        panel = new JPanel(null);
+    void setPanel (){//preparing panel and all parts
+        ImageIcon bgImg = new ImageIcon("src/resources/tmp.png");
+        panel = new JPanel(null){
+            @Override
+            public void paintComponent(Graphics g){
+                super.paintComponent(g);
+                g.drawImage(bgImg.getImage(),0,0,null);
+            }
+        };
 
-        colorOrNull = colorOrNull!=null ? colorOrNull : Color.black;
-        panel.setBackground(colorOrNull);
+
+
+
+
         panel.setBounds(0,0,f.getWidth(),f.getHeight());
 
         prepareComponentsInPanel();
@@ -55,13 +65,15 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
     public void setApple(){//preparing apple and all attributes
         apple = new JLabel(new ImageIcon(this.appleSrc));
-        apple.setBounds(0,0,10,10);
+        apple.setBounds(0,0,measureUnit,measureUnit);
         panel.add(apple);
     }
 
     public void randomizePositionOfApple(){//randomizing the position, function for later
-        int x = r.nextInt(f.getWidth()-10);
-        int y = r.nextInt(f.getHeight()-10);
+        int x = r.nextInt(panel.getWidth()-measureUnit);
+        x = Math.round(x/measureUnit)*measureUnit;
+        int y = r.nextInt(panel.getHeight())-measureUnit;
+        y = Math.round(y/measureUnit)*measureUnit;
         this.apple.setLocation(x,y);
     }
 
@@ -72,21 +84,26 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
     public boolean checkCollision(){
         boolean res = false;
+        int error = measureUnit;
         switch(s.d){
             case up-> {
                 if (
-                        (this.s.head.getY() - 5 <= this.apple.getY() + 5 && this.s.head.getY() - 5 >= this.apple.getY())
+                        (this.s.head.getY() - error <= this.apple.getY() + error
                                 &&
-                                (this.s.head.getX() == this.apple.getX())
+                        this.s.head.getY() - error >= this.apple.getY())
+                                &&
+                        (this.s.head.getX() == this.apple.getX())
                 )
                     res = true;
             }
             case right-> {
                 if (
 
-                        (this.s.head.getX() + 5 <= this.apple.getX() && this.s.head.getX() + 5 >= this.apple.getX() - 5)
+                        (this.s.head.getX() + error <= this.apple.getX()
+                            &&
+                        this.s.head.getX() + error >= this.apple.getX() - error)
                                 &&
-                                (this.s.head.getY() == this.apple.getY())
+                        (this.s.head.getY() == this.apple.getY())
 
                 )
                     res = true;
@@ -94,18 +111,22 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
             case down-> {
                 if (
-                        (this.s.head.getY() + 5 <= this.apple.getY() && this.s.head.getY() + 5 >= this.apple.getY() - 5)
+                        (this.s.head.getY() + error <= this.apple.getY()
+                            &&
+                        this.s.head.getY() + error >= this.apple.getY() - error)
                                 &&
-                                (this.s.head.getX() == this.apple.getX())
+                        (this.s.head.getX() == this.apple.getX())
                 )
                     res = true;
             }
 
             case left-> {
                 if (
-                        (this.s.head.getX() - 5 <= this.apple.getX() + 5 && this.s.head.getX() - 5 >= this.apple.getX())
+                        (this.s.head.getX() - error <= this.apple.getX() + error
+                            &&
+                        this.s.head.getX() - error >= this.apple.getX())
                                 &&
-                                (this.s.head.getY() == this.apple.getY())
+                        (this.s.head.getY() == this.apple.getY())
                 )
                     res = true;
             }
@@ -124,55 +145,36 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
     }
 
     public void listenKeys(){
-        if(true && this.s.d!=direction.up){
-            //@todo
+        Listener l = new Listener(this.s);
 
-        }
-        if(true && this.s.d!=direction.right){
-            //@todo
-        }
-        if(true && this.s.d!=direction.down){
-            //@todo
-        }
-        if(true && this.s.d!=direction.left){
-            //@todo
-        }
+        f.addKeyListener(l);
     }
 
-    public boolean turning=false;
+    //@TODO FUNCTION FOR COLLISION WITH SELF
     @Override
     public void actionPerformed(ActionEvent e) {
 
 
-
+        listenKeys();
         if(checkCollision()){
             this.randomizePositionOfApple();
 
-            turning = true;
         }
-
-
-
-
-        this.s.move(false);
-
-
-
+        System.out.println("x="+this.apple.getX()+"\ny="+this.apple.getY());
+        this.s.move();
         repaint();
 
     }
 
 
 
-
-
-
-
     public static void main(String[] args) {
 
         java.awt.EventQueue.invokeLater(() -> {
-            Frame fr = new Frame(300,300,null);
-            fr.apple.setLocation(100,200);
+            Frame fr = new Frame(600,600);
+            fr.randomizePositionOfApple();
+
+
             fr.render();//show the frame
 
             Timer t = new Timer(100,fr);
