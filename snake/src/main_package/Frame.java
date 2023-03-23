@@ -1,6 +1,9 @@
 package main_package;
 
 import javax.swing.*;
+
+import main_package.Snake.direction;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +14,7 @@ import java.util.Random;
 public class Frame extends JFrame implements ActionListener {//setting up a frame class with my functions to work with jframe and else
     JFrame f;//basic frame
     JPanel panel;
-    JLabel apple;
+    JLabel apple;String appleSrc = "../resources/apple.png";
     Snake s;
     Random r = new Random();
     Frame(int width,int height,Color c){ //easy constructor with size
@@ -24,6 +27,7 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
 
     }
+
     void prepareSnake(){//for cleaner code, preparing snake's attributes
         s = new Snake();
         panel.add(s.head);
@@ -50,19 +54,16 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
     }
 
     public void setApple(){//preparing apple and all attributes
-        apple = new JLabel(new ImageIcon("src/resources/apple.png"));
+        apple = new JLabel(new ImageIcon(this.appleSrc));
         apple.setBounds(0,0,10,10);
         panel.add(apple);
     }
-
 
     public void randomizePositionOfApple(){//randomizing the position, function for later
         int x = r.nextInt(f.getWidth()-10);
         int y = r.nextInt(f.getHeight()-10);
         this.apple.setLocation(x,y);
     }
-
-
 
     void render() {  //function to just render and other things to do at the end
 
@@ -74,37 +75,37 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         switch(s.d){
             case up-> {
                 if (
-                        (this.s.hy - 5 <= this.apple.getY() + 5 && this.s.hy - 5 >= this.apple.getY())
+                        (this.s.head.getY() - 5 <= this.apple.getY() + 5 && this.s.head.getY() - 5 >= this.apple.getY())
                                 &&
-                        (this.s.hx == this.apple.getX())
+                                (this.s.head.getX() == this.apple.getX())
                 )
                     res = true;
             }
             case right-> {
                 if (
 
-                        (this.s.hx + 5 <= this.apple.getX() && this.s.hx + 5 >= this.apple.getX() - 5)
+                        (this.s.head.getX() + 5 <= this.apple.getX() && this.s.head.getX() + 5 >= this.apple.getX() - 5)
                                 &&
-                        (this.s.hy == this.apple.getY())
+                                (this.s.head.getY() == this.apple.getY())
 
                 )
-                res = true;
+                    res = true;
             }
 
             case down-> {
                 if (
-                        (this.s.hy + 5 <= this.apple.getY() && this.s.hy + 5 >= this.apple.getY() - 5)
+                        (this.s.head.getY() + 5 <= this.apple.getY() && this.s.head.getY() + 5 >= this.apple.getY() - 5)
                                 &&
-                        (this.s.hx == this.apple.getX())
+                                (this.s.head.getX() == this.apple.getX())
                 )
                     res = true;
             }
 
             case left-> {
                 if (
-                        (this.s.hx - 5 <= this.apple.getX() + 5 && this.s.hx - 5 >= this.apple.getX())
+                        (this.s.head.getX() - 5 <= this.apple.getX() + 5 && this.s.head.getX() - 5 >= this.apple.getX())
                                 &&
-                        (this.s.hy == this.apple.getY())
+                                (this.s.head.getY() == this.apple.getY())
                 )
                     res = true;
             }
@@ -114,7 +115,6 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
             }
         }
         if(res){
-            System.out.println("COLLISION");
             s.bodyN++;
             s.initializeNewNode();
             panel.add(s.body[s.bodyN-1]);
@@ -122,15 +122,42 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
         return res;
     }
+
+    public void listenKeys(){
+        if(true && this.s.d!=direction.up){
+            //@todo
+
+        }
+        if(true && this.s.d!=direction.right){
+            //@todo
+        }
+        if(true && this.s.d!=direction.down){
+            //@todo
+        }
+        if(true && this.s.d!=direction.left){
+            //@todo
+        }
+    }
+
+    public boolean turning=false;
     @Override
     public void actionPerformed(ActionEvent e) {
 
 
-        this.s.move();
+
         if(checkCollision()){
             this.randomizePositionOfApple();
-            this.s.changeDirection();
+
+            turning = true;
         }
+
+
+
+
+        this.s.move(false);
+
+
+
         repaint();
 
     }
@@ -145,12 +172,10 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
         java.awt.EventQueue.invokeLater(() -> {
             Frame fr = new Frame(300,300,null);
-            fr.apple.setLocation(0,200);
+            fr.apple.setLocation(100,200);
             fr.render();//show the frame
 
-
-
-            Timer t = new Timer(50,fr);
+            Timer t = new Timer(100,fr);
             t.start();
         });
 
