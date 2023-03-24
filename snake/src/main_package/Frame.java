@@ -157,7 +157,12 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         listenKeys();
         if(checkCollision()){
             this.randomizePositionOfApple();
-
+            if(tmp){
+                this.t = new Timer(--this.frame,this);
+                tmp=false;
+            }else{
+                tmp=true;
+            }
         }
         if(this.s.collisionWithSelf()){
             JLabel lose = new JLabel("U lost");
@@ -170,10 +175,12 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         this.s.move();
         repaint();
 
+
     }
 
-
-
+    boolean tmp = true;
+    int frame = 100;
+    Timer t;
     public static void main(String[] args) {
 
         java.awt.EventQueue.invokeLater(() -> {
@@ -183,8 +190,8 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
 
             fr.render();//show the frame
 
-            Timer t = new Timer(100,fr);
-            t.start();
+            fr.t = new Timer(fr.frame,fr);
+            fr.t.start();
         });
 
     }
