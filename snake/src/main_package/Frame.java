@@ -19,14 +19,18 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
     Random r = new Random();
     int measureUnit = 30;
     Frame(int width,int height){ //easy constructor with size
+        start(width,height);
+    }
+    public void start(int width,int height){
         f = new JFrame("Snake");
         f.setSize(width,height);
         f.setLocation(600,200);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //setting closing operation
 
-        setPanel();
-
-
+        this.setPanel();
+        this.randomizePositionOfApple();
+        this.render();
+        this.listenKeys();
     }
 
     void prepareSnake(){//for cleaner code, preparing snake's attributes
@@ -46,10 +50,6 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
                 g.drawImage(bgImg.getImage(),0,0,null);
             }
         };
-
-
-
-
 
         panel.setBounds(0,0,f.getWidth(),f.getHeight());
 
@@ -143,8 +143,9 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         return res;
     }
 
+    Listener l;
     public void listenKeys(){
-        Listener l = new Listener(this.s);
+        l = new Listener(this.s);
 
         f.addKeyListener(l);
     }
@@ -153,45 +154,48 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
-        listenKeys();
         if(checkCollision()){
             this.randomizePositionOfApple();
-            if(tmp){
-                this.t = new Timer(--this.frame,this);
-                tmp=false;
-            }else{
-                tmp=true;
-            }
         }
         if(this.s.collisionWithSelf()){
-            JLabel lose = new JLabel("U lost");
-            lose.setBounds(100,100,200,200);
+            this.panel.removeAll();
+            JLabel lose = new JLabel("YOU DIED");
+            lose.setFont(lose.getFont().deriveFont(50f));
+            lose.setBounds(150,0,300,300);
             this.panel.add(lose);
-            return;
-        }
-        s.teleport();
+            JButton pressMe = new JButton("replay?");
+            pressMe.setFont((lose.getFont().deriveFont(30f)));
+            pressMe.setBounds(200,200,150,70);
+            this.panel.add(pressMe);
 
+
+            this.panel.repaint();
+
+            pressMe.addActionListener(e1 -> {
+                f.setVisible(false);
+                start(600,600);
+            });
+
+
+        }
+
+        s.teleport();
         this.s.move();
         repaint();
-
-
     }
 
-    boolean tmp = true;
+
     int frame = 100;
     Timer t;
     public static void main(String[] args) {
 
         java.awt.EventQueue.invokeLater(() -> {
             Frame fr = new Frame(600,600);
-            fr.randomizePositionOfApple();
 
-
-            fr.render();//show the frame
 
             fr.t = new Timer(fr.frame,fr);
             fr.t.start();
+
         });
 
     }

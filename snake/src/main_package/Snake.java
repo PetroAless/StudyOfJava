@@ -2,7 +2,7 @@ package main_package;
 import javax.swing.JLabel;
 
 import java.awt.Point;
-import java.util.Random;
+
 
 import javax.swing.ImageIcon;
 public class Snake {
@@ -27,14 +27,9 @@ public class Snake {
         }
         setBounds();
     }
-    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
+
     public void setBounds(){
-        Random r = new Random();
-        int x = r.nextInt(frameSizes);
-        x = Math.round(x/measure)*measure;
-        int y = r.nextInt(frameSizes);
-        y = Math.round(y/measure)*measure;
-        head.setBounds(x-(frameSizes/2),y,measure,measure);
+        head.setBounds(frameSizes/2,frameSizes/2,measure,measure);
         for (int i = 0; i < this.bodyN; i++) {
             body[i].setBounds(head.getX()-measure,head.getY()-measure,measure,measure);
         }
