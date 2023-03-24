@@ -2,7 +2,7 @@ package main_package;
 
 import javax.swing.*;
 
-import main_package.Snake.direction;
+
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -69,6 +69,7 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         panel.add(apple);
     }
 
+    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     public void randomizePositionOfApple(){//randomizing the position, function for later
         int x = r.nextInt(panel.getWidth()-measureUnit);
         x = Math.round(x/measureUnit)*measureUnit;
@@ -131,9 +132,7 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
                     res = true;
             }
 
-            default -> {
-                System.out.println("error, collision checking in default mode");
-            }
+            default -> System.out.println("error, collision checking in default mode");
         }
         if(res){
             s.bodyN++;
@@ -150,7 +149,7 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
         f.addKeyListener(l);
     }
 
-    //@TODO FUNCTION FOR COLLISION WITH SELF
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -160,7 +159,14 @@ public class Frame extends JFrame implements ActionListener {//setting up a fram
             this.randomizePositionOfApple();
 
         }
-        System.out.println("x="+this.apple.getX()+"\ny="+this.apple.getY());
+        if(this.s.collisionWithSelf()){
+            JLabel lose = new JLabel("U lost");
+            lose.setBounds(100,100,200,200);
+            this.panel.add(lose);
+            return;
+        }
+        s.teleport();
+
         this.s.move();
         repaint();
 

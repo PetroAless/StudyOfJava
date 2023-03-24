@@ -14,13 +14,26 @@ public class Listener implements KeyListener {
 
     }
 
+    @SuppressWarnings("SuspiciousIndentAfterControlStatement")
     @Override
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()){
-            case 37->s.d = Snake.direction.left;
-            case 38->s.d = Snake.direction.up;
-            case 39->s.d = Snake.direction.right;
-            case 40->s.d = Snake.direction.down;
+            case 37-> {
+                if(s.d != Snake.direction.right)
+                s.d = Snake.direction.left;
+            }
+            case 38-> {
+                if(s.d != Snake.direction.down)
+                s.d = Snake.direction.up;
+            }
+            case 39-> {
+                if(s.d != Snake.direction.left)
+                s.d = Snake.direction.right;
+            }
+            case 40-> {
+                if(s.d != Snake.direction.up)
+                s.d = Snake.direction.down;
+            }
         }
         s.justTurned = true;
     }
