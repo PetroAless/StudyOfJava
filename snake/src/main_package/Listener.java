@@ -5,11 +5,10 @@ import java.awt.event.KeyListener;
 
 public class Listener implements KeyListener {
 //37 left, 38 up, 39 right, 40 down
-    Snake s;
-    boolean replay = false;
+    Snake s; //snake to set its direction
     Listener(Snake a){
         this.s = a;
-    }
+    } //simple constructor
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -18,12 +17,7 @@ public class Listener implements KeyListener {
 
     @SuppressWarnings("SuspiciousIndentAfterControlStatement")
     @Override
-    public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
-        if(e.getKeyCode()==10){
-            replay=true;
-            return;
-        }
+    public void keyPressed(KeyEvent e) {  //main function to check for input, sets a defined direction only if the opposite direction isn't happening
         switch(e.getKeyCode()){
             case 37-> {
                 if(s.d != Snake.direction.right)
